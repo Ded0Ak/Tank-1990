@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <title>TANK 1990</title>
+  </head>
+  <body class="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col items-center justify-center p-4 selection:bg-amber-500 selection:text-zinc-950">
+    <!-- Top Header -->
+    <header class="w-full max-w-[820px] flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-3">
+        <div class="w-3 h-3 bg-amber-400 rotate-45 shadow-[0_0_10px_#f59e0b]"></div>
+        <h1 class="text-2xl font-black tracking-[0.22em] text-amber-400 drop-shadow-[2px_2px_0_#78350f]">
+          TANK 1990
+        </h1>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <span id="mode-badge" class="px-2.5 py-1 text-xs font-bold tracking-wider uppercase rounded bg-zinc-900 border border-zinc-800 text-emerald-400">
+          1P SOLO
+        </span>
+        <button
+          id="btn-sound"
+          type="button"
+          class="px-3 py-1 text-xs font-bold uppercase tracking-wider rounded bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-200 transition cursor-pointer"
+        >
+          Звук: УВІМК.
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Game Container -->
+    <main class="w-full max-w-[820px] grid grid-cols-1 md:grid-cols-[520px_1fr] gap-5 items-start">
+      <!-- Arena Canvas Wrapper -->
+      <div class="relative mx-auto rounded-lg border-4 border-zinc-800 bg-black shadow-2xl overflow-hidden">
+        <canvas id="game-canvas" width="520" height="520" class="pixel-canvas block w-[520px] max-w-full aspect-square"></canvas>
+
+        <!-- Game Over Overlay -->
+        <div
+          id="gameover-overlay"
+          class="hidden absolute inset-0 bg-black/80 backdrop-blur-[2px] flex-col items-center justify-center gap-4 p-6 text-center"
+        >
+          <p class="text-3xl font-black tracking-[0.25em] text-red-500 drop-shadow-[0_2px_10px_rgba(239,68,68,0.6)]">
+            ГРУ ЗАВЕРШЕНО
+          </p>
+          <p class="text-sm text-zinc-300">Базу знищено!</p>
+          <button
+            id="btn-restart-overlay"
+            type="button"
+            class="px-5 py-2.5 rounded bg-amber-400 hover:bg-amber-300 text-zinc-950 font-black uppercase tracking-wider text-sm transition cursor-pointer"
+          >
+            Играть снова
+          </button>
+        </div>
+      </div>
+
+      <!-- Arcade Sidebar -->
+      <aside class="bg-zinc-900/90 border border-zinc-800 rounded-lg p-4 flex flex-col gap-4 shadow-xl">
+        <!-- Score & Status -->
+        <section class="flex flex-col gap-2">
+          <h2 class="text-xs font-bold uppercase tracking-widest text-amber-400 border-b border-zinc-800 pb-1.5">
+            Статус боя
+          </h2>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div class="bg-zinc-950 border border-zinc-800/80 rounded p-2.5">
+              <div class="text-zinc-500 uppercase text-[10px]">Гравець 1</div>
+              <div id="hud-p1-score" class="text-base font-black text-amber-400">0</div>
+              <div id="hud-p1-hp" class="text-[11px] text-zinc-300 mt-0.5">Життя: 3</div>
+            </div>
+            <div class="bg-zinc-950 border border-zinc-800/80 rounded p-2.5">
+              <div class="text-zinc-500 uppercase text-[10px]">Гравець 2</div>
+              <div id="hud-p2-score" class="text-base font-black text-emerald-400">—</div>
+              <div id="hud-p2-hp" class="text-[11px] text-zinc-300 mt-0.5">Не грає</div>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between bg-zinc-950 border border-zinc-800/80 rounded px-3 py-2 text-xs">
+            <span class="text-zinc-400">Штаб:</span>
+            <span id="hud-base" class="font-bold text-emerald-400">ЗАХИЩЕНО</span>
+          </div>
+        </section>
+
+        <!-- Game Mode Selection -->
+        <section class="flex flex-col gap-2">
+          <h2 class="text-xs font-bold uppercase tracking-widest text-amber-400 border-b border-zinc-800 pb-1.5">
+            Режим игры
+          </h2>
+          <div class="grid grid-cols-2 gap-2">
+            <button
+              id="btn-solo"
+              type="button"
+              class="py-2 px-3 rounded bg-amber-400 hover:bg-amber-300 text-zinc-950 font-bold text-xs uppercase transition cursor-pointer"
+            >
+              1 гравець
+            </button>
+            <button
+              id="btn-coop"
+              type="button"
+              class="py-2 px-3 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-100 border border-zinc-700 font-bold text-xs uppercase transition cursor-pointer"
+            >
+              2 гравці
+            </button>
+          </div>
+          <button
+            id="btn-next-stage"
+            type="button"
+            class="w-full py-1.5 px-3 rounded bg-zinc-950 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 font-semibold text-xs transition cursor-pointer"
+          >
+            Змінити карту / Почати спочатку
+          </button>
+        </section>
+
+        <!-- Controls Guide -->
+        <section class="bg-zinc-950/80 border border-zinc-800/80 rounded p-3 text-[11px] text-zinc-400 leading-relaxed">
+          <div class="font-bold text-zinc-200 mb-1">Керування:</div>
+          <div><span class="text-amber-400 font-bold">Гравець 1:</span> WASD / стрілки + пробіл</div>
+          <div><span class="text-emerald-400 font-bold">Гравець 2:</span> IJKL + Enter</div>
+          <div class="mt-1.5 text-zinc-500">Бонуси: [S] щит, [R] скорострільність, [+] ремонт</div>
+        </section>
+      </aside>
+    </main>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

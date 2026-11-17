@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  }
+}
+
+.pixel-canvas {
+  image-rendering: pixelated;
+}

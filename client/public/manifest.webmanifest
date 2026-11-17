@@ -1,0 +1,8 @@
+{
+  "name": "Tank 1990",
+  "short_name": "Tank1990",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#090d16",
+  "theme_color": "#f59e0b"
+}
